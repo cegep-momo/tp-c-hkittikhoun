@@ -49,6 +49,16 @@ public:
 
     // Confirmation before deletion of a book
     bool confirmBookDeletion(const string& bookInfo);
+
+    // Sorting methods
+    vector<Book*> getAllBooksSortedByTitle();
+    vector<Book*> getAllBooksSortedByAuthor();
+    vector<Book*> getAvailableBooksSortedByTitle();
+    vector<Book*> getAvailableBooksSortedByAuthor();
+    
+    // Display methods with sorting
+    void displayAllBooksSorted(bool byTitle = true);
+    void displayAvailableBooksSorted(bool byTitle = true);
 };
 
 #endif

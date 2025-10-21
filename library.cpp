@@ -230,3 +230,77 @@ bool Library::confirmBookDeletion(const string& bookInfo) {
 
     return (response == "oui" || response == "o" || response == "yes" || response == "y");
 }
+
+// Get all books sorted by title
+vector<Book*> Library::getAllBooksSortedByTitle() {
+    auto allBooks = getAllBooks();
+    sort(allBooks.begin(), allBooks.end(),
+        [](Book* a, Book* b) {
+            return a->getTitle() < b->getTitle();
+        });
+    return allBooks;
+}
+
+// Get all books sorted by author
+vector<Book*> Library::getAllBooksSortedByAuthor() {
+    auto allBooks = getAllBooks();
+    sort(allBooks.begin(), allBooks.end(),
+        [](Book* a, Book* b) {
+            return a->getAuthor() < b->getAuthor();
+        });
+    return allBooks;
+}
+
+// Get available books sorted by title
+vector<Book*> Library::getAvailableBooksSortedByTitle() {
+    auto availableBooks = getAvailableBooks();
+    sort(availableBooks.begin(), availableBooks.end(),
+        [](Book* a, Book* b) {
+            return a->getTitle() < b->getTitle();
+        });
+    return availableBooks;
+}
+
+// Get available books sorted by author
+vector<Book*> Library::getAvailableBooksSortedByAuthor() {
+    auto availableBooks = getAvailableBooks();
+    sort(availableBooks.begin(), availableBooks.end(),
+        [](Book* a, Book* b) {
+            return a->getAuthor() < b->getAuthor();
+        });
+    return availableBooks;
+}
+
+// Display all books sorted
+void Library::displayAllBooksSorted(bool byTitle) {
+    auto books = byTitle ? getAllBooksSortedByTitle() : getAllBooksSortedByAuthor();
+    
+    if (books.empty()) {
+        cout << "Aucun livre dans la bibliothèque.\n";
+        return;
+    }
+    
+    cout << "\n=== TOUS LES LIVRES (Triés par " << (byTitle ? "Titre" : "Auteur") << ") ===\n";
+    for (size_t i = 0; i < books.size(); ++i) {
+        cout << "\nLivre " << (i + 1) << " :\n";
+        cout << books[i]->toString() << "\n";
+        cout << "-------------------------\n";
+    }
+}
+
+// Display available books sorted
+void Library::displayAvailableBooksSorted(bool byTitle) {
+    auto books = byTitle ? getAvailableBooksSortedByTitle() : getAvailableBooksSortedByAuthor();
+    
+    if (books.empty()) {
+        cout << "Aucun livre disponible pour emprunt.\n";
+        return;
+    }
+    
+    cout << "\n=== LIVRES DISPONIBLES (Triés par " << (byTitle ? "Titre" : "Auteur") << ") ===\n";
+    for (size_t i = 0; i < books.size(); ++i) {
+        cout << "\nLivre " << (i + 1) << " :\n";
+        cout << books[i]->toString() << "\n";
+        cout << "---------------------------\n";
+    }
+}
