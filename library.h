@@ -46,6 +46,9 @@ public:
     int getTotalBooks() const;
     int getAvailableBookCount() const;
     int getCheckedOutBookCount() const;
+
+    // Confirmation before deletion of a book
+    bool confirmBookDeletion(const string& bookInfo);
 };
 
 #endif

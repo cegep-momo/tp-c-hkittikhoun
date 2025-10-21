@@ -15,6 +15,17 @@ void Library::addBook(const Book& book) {
 
 // Remove book from library
 bool Library::removeBook(const string& isbn) {
+    Book* book = findBookByISBN(isbn);
+    if (!book) {
+        return false;
+    }
+
+    // Show book details and ask for confirmation
+    if (!confirmBookDeletion(book->toString())) {
+        cout << "Suppression annulée.\n";
+        return false;
+    }
+    
     auto it = find_if(books.begin(), books.end(),
         [&isbn](const unique_ptr<Book>& book) {
             return book->getISBN() == isbn;
@@ -202,3 +213,20 @@ int Library::getAvailableBookCount() const {
         });
 }
 int Library::getCheckedOutBookCount() const { return getTotalBooks() - getAvailableBookCount(); }
+
+// Confirmation before deletion of a book
+bool Library::confirmBookDeletion(const string& bookInfo) {
+    cout << "\n=== CONFIRMATION DE SUPPRESSION DE LIVRE ===\n";
+    cout << "Vous êtes sur le point de supprimer ce livre :\n";
+    cout << bookInfo << "\n";
+    cout << "Cette action est irréversible.\n";
+    cout << "Confirmez-vous la suppression ? (oui/non) : ";
+
+    string response;
+    getline(cin, response);
+
+    // Convert response to lowercase for comparison
+    transform(response.begin(), response.end(), response.begin(), ::tolower);
+
+    return (response == "oui" || response == "o" || response == "yes" || response == "y");
+}
